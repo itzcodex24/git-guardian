@@ -2,10 +2,6 @@
 
 **Git Guardian** is a simple yet powerful CLI tool to automatically back up your project folders to GitHub. Designed for Mac users, Guardian watches your directories for changes or backs them up on a regular interval, committing and pushing changes automatically. It's perfect for developers who want effortless version control without thinking about it.
 
-The CLI tool is called `guardian`.
-
----
-
 ## 🚀 Core Features
 
 * **Auto-Backup:** Automatically commit and push changes to a GitHub repository.
@@ -19,23 +15,17 @@ The CLI tool is called `guardian`.
 * **Safe and Reliable:** Stops watchers if a folder is deleted and prevents duplicate or conflicting commits.
 * **Background Daemon:** Runs silently in the background, automatically managing all your linked folders.
 
-The CLI tool is called `guardian`.
-
----
-
-## 🚀 Core Features
-
-* **Auto-Backup:** Automatically commit and push changes to a GitHub repository.
-* **Watch Mode:** Monitor a folder for file changes and push updates with a configurable debounce time (e.g., every 30 seconds).
-* **Interval Mode:** Push all changes at a set interval (e.g., every 5 minutes).
-* **Folder Management:** Link folders to Guardian and manage them easily.
-* **Listeners Dashboard:** View all active watchers, pause, resume, or remove them.
-* **Autostart:** Guardian can start automatically when your Mac boots.
-* **Safe and Reliable:** Stops watchers if a folder is deleted and prevents duplicate or conflicting commits.
 
 ---
 
 ## 💻 Installation
+
+### Homebrew (Recommended)
+
+```bash
+brew tap itzcodex24/tap
+brew install guardian
+```
 
 ### From Source
 
@@ -56,13 +46,6 @@ go build -o guardian ./...
 
 ```bash
 sudo mv guardian /usr/local/bin/
-```
-
-### Homebrew (Recommended for users)
-
-```bash
-brew tap itzcodex24/tap
-brew install guardian
 ```
 
 ---
