@@ -62,10 +62,9 @@ sudo mv guardian /usr/local/bin/
 
 ### Homebrew (Recommended for users)
 
-Once the Homebrew formula is published:
-
 ```bash
-brew install itzcodex24/git-guardian/guardian
+brew tap itzcodex24/tap
+brew install guardian
 ```
 
 ---
