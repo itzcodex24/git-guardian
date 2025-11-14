@@ -15,7 +15,7 @@ import (
 
 var (
     running = map[string]chan struct{}{}
-    mu      sync.Mutex{}
+    mu      sync.Mutex
 )
 
 func StartAll() {
