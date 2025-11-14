@@ -1,6 +1,25 @@
 # Git Guardian
 
-**Git Guardian** is a simple yet powerful CLI tool to automatically back up your project folders to GitHub. Designed for Mac users, Guardian watches your directories for changes or backs them up on a regular interval, committing and pushing changes automatically. It’s perfect for developers who want effortless version control without thinking about it.
+# Git Guardian
+
+**Git Guardian** is a simple yet powerful CLI tool to automatically back up your project folders to GitHub. Designed for Mac users, Guardian watches your directories for changes or backs them up on a regular interval, committing and pushing changes automatically. It's perfect for developers who want effortless version control without thinking about it.
+
+The CLI tool is called `guardian`.
+
+---
+
+## 🚀 Core Features
+
+* **Auto-Backup:** Automatically commit and push changes to a GitHub repository.
+* **Watch Mode:** Monitor a folder for file changes and push updates with a configurable debounce time (e.g., every 30 seconds).
+* **Interval Mode:** Push all changes at a set interval (e.g., every 10 seconds to 5 minutes or more).
+* **Folder Management:** Link folders to Guardian with simple, user-friendly incremental IDs (1, 2, 3...).
+* **Colorful CLI:** Beautiful, color-coded terminal output with status indicators and icons.
+* **Listeners Dashboard:** View all active watchers with detailed info including mode, interval/debounce times, and last run timestamps.
+* **Flexible Paths:** Use relative paths (`.`, `..`) or absolute paths for linking and starting watchers.
+* **Autostart:** Guardian can start automatically when your Mac boots via launchd.
+* **Safe and Reliable:** Stops watchers if a folder is deleted and prevents duplicate or conflicting commits.
+* **Background Daemon:** Runs silently in the background, automatically managing all your linked folders.
 
 The CLI tool is called `guardian`.
 
