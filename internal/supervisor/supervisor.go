@@ -27,7 +27,7 @@ func StartAll() {
     }
 }
 
-// StartAllBlocking is used by daemon (blocks forever).
+
 func StartAllBlocking() {
     StartAll()
     select {}
@@ -37,7 +37,7 @@ func startWatcher(st state.WatcherState) {
     mu.Lock()
     if _, ok := running[st.ID]; ok {
         mu.Unlock()
-        return // already running
+        return 
     }
     stop := make(chan struct{})
     running[st.ID] = stop
@@ -51,7 +51,6 @@ func startWatcher(st state.WatcherState) {
         }()
 
         for {
-            // auto-remove if folder disappears
             if _, err := os.Stat(s.Folder); os.IsNotExist(err) {
                 fmt.Println("[supervisor] folder removed, cancelling:", s.Folder)
                 Remove(s.ID)
@@ -71,13 +70,12 @@ func startWatcher(st state.WatcherState) {
                 }
                 select {
                 case <-time.After(d):
-                    // continue
+                    
                 case <-stopCh:
                     return
                 }
 
             case "watch":
-                // Run watcher in goroutine and make it cancelable via stopCh by exiting goroutine on stop.
                 done := make(chan struct{})
                 go func() {
                     _ = watcher.WatchAndDebounce(s.Folder, s.Debounce, func() {
@@ -94,10 +92,8 @@ func startWatcher(st state.WatcherState) {
                 case <-stopCh:
                     return
                 case <-done:
-                    // watcher finished (unexpectedly) — restart loop which will try again.
                 }
             default:
-                // nothing to do
                 return
             }
         }
@@ -172,11 +168,9 @@ func updateLastRun(id string) {
     state.Update(list)
 }
 
-// GenerateLaunchdPlist produces the plist contents to start `guardian daemon`.
 func GenerateLaunchdPlist() string {
     bin, _ := exec.LookPath("guardian")
     if bin == "" {
-        // common Homebrew bin
         bin = "/usr/local/bin/guardian"
     }
     home, _ := os.UserHomeDir()

@@ -10,7 +10,7 @@ import (
 type WatcherState struct {
     ID       string `json:"id"`
     Folder   string `json:"folder"`
-    Mode     string `json:"mode"` // "watch" | "interval" | "none"
+    Mode     string `json:"mode"` 
     Interval string `json:"interval,omitempty"`
     Debounce string `json:"debounce,omitempty"`
     Paused   bool   `json:"paused"`

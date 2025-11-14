@@ -15,7 +15,6 @@ var rootCmd = &cobra.Command{
 }
 
 func Execute() {
-    // Load and start any configured watchers (fast startup).
     supervisor.StartAll()
 
     if err := rootCmd.Execute(); err != nil {
