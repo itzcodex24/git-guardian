@@ -10,9 +10,9 @@ import (
 
 func hasChanges(folder string) (bool, error) {
     cmd := exec.Command("git", "-C", folder, "status", "--porcelain")
-    out, err := cmd.Output()
+    out, err := cmd.CombinedOutput()
     if err != nil {
-        return false, err
+        return false, fmt.Errorf("%w: %s", err, strings.TrimSpace(string(out)))
     }
     return len(bytes.TrimSpace(out)) > 0, nil
 }
@@ -39,6 +39,5 @@ func CommitAndPush(folder string) error {
         return fmt.Errorf("git push failed: %v: %s", err, strings.TrimSpace(string(out)))
     }
 
-    fmt.Println("[guardian] backup pushed at", time.Now().Format(time.RFC3339))
     return nil
 }

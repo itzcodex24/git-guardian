@@ -13,14 +13,20 @@ var listenersCmd = &cobra.Command{
     Short: "List all configured watchers",
     RunE: func(cmd *cobra.Command, args []string) error {
         list := supervisor.List()
-        fmt.Printf("\n%-8s %-10s %-45s %-10s %-25s\n", "ID", "Mode", "Folder", "Status", "LastRun")
+        fmt.Printf("\n%-8s %-15s %-38s %-10s %-25s\n", "ID", "Mode", "Folder", "Status", "LastRun")
         fmt.Println(strings.Repeat("-", 110))
         for _, w := range list {
             status := "paused"
             if !w.Paused {
                 status = "running"
             }
-            fmt.Printf("%-8s %-10s %-45s %-10s %-25s\n", w.ID, w.Mode, w.Folder, status, w.LastRun)
+            mode := w.Mode
+            if w.Mode == "interval" && w.Interval != "" {
+                mode = fmt.Sprintf("interval (%s)", w.Interval)
+            } else if w.Mode == "watch" && w.Debounce != "" {
+                mode = fmt.Sprintf("watch (%s)", w.Debounce)
+            }
+            fmt.Printf("%-8s %-15s %-38s %-10s %-25s\n", w.ID, mode, w.Folder, status, w.LastRun)
         }
         return nil
     },

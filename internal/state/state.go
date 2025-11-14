@@ -2,6 +2,7 @@ package state
 
 import (
     "encoding/json"
+    "fmt"
     "os"
     "path/filepath"
     "sync"
@@ -68,4 +69,36 @@ func Append(w WatcherState) {
     watchers = append(watchers, w)
     mu.Unlock()
     saveToDisk()
+}
+
+func AddFolder(folder string) error {
+    loadFromDisk()
+    
+    // Check if folder is already linked
+    for _, w := range watchers {
+        if w.Folder == folder {
+            return fmt.Errorf("folder already linked: %s", folder)
+        }
+    }
+    
+    // Find the next available incremental ID
+    maxID := 0
+    for _, w := range watchers {
+        var numID int
+        if _, err := fmt.Sscanf(w.ID, "%d", &numID); err == nil {
+            if numID > maxID {
+                maxID = numID
+            }
+        }
+    }
+    
+    w := WatcherState{
+        ID:     fmt.Sprintf("%d", maxID+1),
+        Folder: folder,
+        Mode:   "",
+        Paused: true,
+    }
+    
+    Append(w)
+    return nil
 }

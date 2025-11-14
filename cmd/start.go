@@ -2,6 +2,7 @@ package cmd
 
 import (
     "fmt"
+    "path/filepath"
 
     "github.com/spf13/cobra"
     "github.com/itzcodex24/git-guardian/internal/state"
@@ -19,9 +20,15 @@ var startCmd = &cobra.Command{
     Short: "Start a watcher for a linked folder (watch mode or interval mode)",
     RunE: func(cmd *cobra.Command, args []string) error {
         folder := args[0]
+        absPath, err := filepath.Abs(folder)
+        if err != nil {
+            return fmt.Errorf("failed to resolve folder path: %w", err)
+        }
+        absPath = filepath.Clean(absPath)
+        
         list := state.Get()
         for i := range list {
-            if list[i].Folder == folder {
+            if list[i].Folder == absPath {
                 if startWatch {
                     list[i].Mode = "watch"
                     list[i].Debounce = startDebounce
@@ -33,11 +40,11 @@ var startCmd = &cobra.Command{
                 }
                 list[i].Paused = false
                 state.Update(list)
-                fmt.Println("Watcher activated for:", folder)
+                fmt.Println("Watcher activated for:", absPath)
                 return nil
             }
         }
-        return fmt.Errorf("folder not linked: %s. Use `guardian link` first", folder)
+        return fmt.Errorf("folder not linked: %s. Use `guardian link` first", absPath)
     },
 }
 

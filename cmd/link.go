@@ -3,31 +3,39 @@ package cmd
 import (
     "fmt"
     "os"
+    "path/filepath"
 
-    "github.com/google/uuid"
     "github.com/spf13/cobra"
     "github.com/itzcodex24/git-guardian/internal/state"
 )
 
 var linkCmd = &cobra.Command{
-    Use:   "link <folder>",
+    Use:   "link [folder]",
+    Short: "Link a folder to Guardian for automatic backups",
     Args:  cobra.ExactArgs(1),
-    Short: "Link an existing folder to guardian (adds it to persistent state, initially paused)",
     RunE: func(cmd *cobra.Command, args []string) error {
         folder := args[0]
-        if _, err := os.Stat(folder); os.IsNotExist(err) {
-            return fmt.Errorf("folder does not exist: %s", folder)
+        absPath, err := filepath.Abs(folder)
+        if err != nil {
+            return fmt.Errorf("failed to resolve folder path: %w", err)
+        }
+        
+        // Clean the path to remove any redundant separators
+        absPath = filepath.Clean(absPath)
+
+        info, err := os.Stat(absPath)
+        if err != nil {
+            return fmt.Errorf("folder does not exist: %w", err)
+        }
+        if !info.IsDir() {
+            return fmt.Errorf("not a directory")
         }
 
-        w := state.WatcherState{
-            ID:     uuid.NewString()[:8],
-            Folder: folder,
-            Mode:   "none",
-            Paused: true,
+        if err := state.AddFolder(absPath); err != nil {
+            return fmt.Errorf("failed to link folder: %w", err)
         }
-        state.Append(w)
-        fmt.Println("Linked folder (paused):", folder, "id:", w.ID)
-        fmt.Println("Run `guardian start <folder> --watch` or `--interval <duration>` to enable.")
+
+        fmt.Println("Linked folder:", absPath)
         return nil
     },
 }
