@@ -3,6 +3,7 @@ package cmd
 import (
     "fmt"
 
+    "github.com/fatih/color"
     "github.com/spf13/cobra"
     "github.com/itzcodex24/git-guardian/internal/supervisor"
 )
@@ -16,7 +17,7 @@ var pauseCmd = &cobra.Command{
         if err := supervisor.Pause(id); err != nil {
             return fmt.Errorf("pause failed: %w", err)
         }
-        fmt.Println("Paused:", id)
+        color.Yellow("⏸  Paused: %s", id)
         return nil
     },
 }

@@ -4,6 +4,7 @@ import (
     "fmt"
     "path/filepath"
 
+    "github.com/fatih/color"
     "github.com/spf13/cobra"
     "github.com/itzcodex24/git-guardian/internal/state"
 )
@@ -40,7 +41,7 @@ var startCmd = &cobra.Command{
                 }
                 list[i].Paused = false
                 state.Update(list)
-                fmt.Println("Watcher activated for:", absPath)
+                color.Green("✓ Watcher activated for: %s", absPath)
                 return nil
             }
         }

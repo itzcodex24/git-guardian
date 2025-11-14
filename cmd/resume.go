@@ -3,6 +3,7 @@ package cmd
 import (
     "fmt"
 
+    "github.com/fatih/color"
     "github.com/spf13/cobra"
     "github.com/itzcodex24/git-guardian/internal/supervisor"
 )
@@ -16,7 +17,7 @@ var resumeCmd = &cobra.Command{
         if err := supervisor.Resume(id); err != nil {
             return fmt.Errorf("resume failed: %w", err)
         }
-        fmt.Println("Resumed:", id)
+        color.Green("▶  Resumed: %s", id)
         return nil
     },
 }

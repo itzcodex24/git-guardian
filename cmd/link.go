@@ -5,6 +5,7 @@ import (
     "os"
     "path/filepath"
 
+    "github.com/fatih/color"
     "github.com/spf13/cobra"
     "github.com/itzcodex24/git-guardian/internal/state"
 )
@@ -35,7 +36,7 @@ var linkCmd = &cobra.Command{
             return fmt.Errorf("failed to link folder: %w", err)
         }
 
-        fmt.Println("Linked folder:", absPath)
+        color.Green("✓ Linked folder: %s", absPath)
         return nil
     },
 }
