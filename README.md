@@ -1,7 +1,5 @@
 # Git Guardian
 
-# Git Guardian
-
 **Git Guardian** is a simple yet powerful CLI tool to automatically back up your project folders to GitHub. Designed for Mac users, Guardian watches your directories for changes or backs them up on a regular interval, committing and pushing changes automatically. It's perfect for developers who want effortless version control without thinking about it.
 
 The CLI tool is called `guardian`.
